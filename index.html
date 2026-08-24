@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pranesh Saravanan | Full Stack Developer Portfolio</title>
+<meta name="description" content="Portfolio of Pranesh Saravanan, a Computer Science and Engineering student and aspiring Full Stack Developer passionate about web development, UI/UX, software testing, and modern digital experiences." />
+<meta property="og:title" content="Pranesh Saravanan | Full Stack Developer Portfolio" />
+<meta property="og:description" content="Computer Science student and aspiring Full Stack Developer building clean, practical, user-friendly software." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0B0F19',
+          bg2: '#111827',
+          card: '#151D2E',
+          txt: '#F8FAFC',
+          txt2: '#94A3B8',
+          accent: '#6366F1',
+          accent2: '#22D3EE',
+          ok: '#22C55E',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+<style>
+  :root { color-scheme: dark; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0B0F19;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(99,102,241,0.14), transparent 40%),
+      radial-gradient(circle at 85% 78%, rgba(34,211,238,0.10), transparent 45%),
+      linear-gradient(rgba(148,163,184,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.055) 1px, transparent 1px);
+    background-size: auto, auto, 44px 44px, 44px 44px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+  }
+  section, header, footer { scroll-margin-top: 84px; }
+
+  .glass { background: rgba(17,24,39,0.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .navbar-solid { background: rgba(11,15,25,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+
+  .card { background: #151D2E; border: 1px solid rgba(148,163,184,0.10); }
+  .card-hover { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+  .card-hover:hover { transform: translateY(-4px); border-color: rgba(99,102,241,0.45); box-shadow: 0 12px 32px -12px rgba(99,102,241,0.35); }
+
+  .btn-glow { transition: box-shadow .25s ease, transform .2s ease, background-color .2s ease; }
+  .btn-glow:hover { box-shadow: 0 0 0 1px rgba(99,102,241,0.6), 0 8px 28px -6px rgba(99,102,241,0.55); transform: translateY(-2px); }
+
+  .grad-text {
+    background: linear-gradient(90deg, #6366F1, #22D3EE);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0%;
+    background: linear-gradient(90deg,#6366F1,#22D3EE); transition: width .25s ease;
+  }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+  .nav-link.active { color: #F8FAFC; }
+
+  [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+  [data-reveal].in { opacity: 1; transform: translateY(0); }
+  .stagger [data-reveal]:nth-child(1){transition-delay:.02s}
+  .stagger [data-reveal]:nth-child(2){transition-delay:.08s}
+  .stagger [data-reveal]:nth-child(3){transition-delay:.14s}
+  .stagger [data-reveal]:nth-child(4){transition-delay:.20s}
+  .stagger [data-reveal]:nth-child(5){transition-delay:.26s}
+  .stagger [data-reveal]:nth-child(6){transition-delay:.32s}
+
+  .float-chip { animation: floaty 6s ease-in-out infinite; }
+  .float-chip.d2 { animation-delay: .8s; }
+  .float-chip.d3 { animation-delay: 1.6s; }
+  .float-chip.d4 { animation-delay: 2.4s; }
+  @keyframes floaty { 0%,100%{ transform: translateY(0px);} 50%{ transform: translateY(-12px);} }
+
+  .caret { display:inline-block; width:9px; height:1.1em; background:#22D3EE; margin-left:2px; vertical-align:-2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  .skill-bar-fill { transform-origin: left; transform: scaleX(0); transition: transform 1s ease; }
+  .in .skill-bar-fill { transform: scaleX(1); }
+
+  .timeline-line { background: linear-gradient(180deg, rgba(99,102,241,0.6), rgba(34,211,238,0.15)); }
+
+  input, textarea { background: #0F1523; border: 1px solid rgba(148,163,184,0.16); color: #F8FAFC; }
+  input:focus, textarea:focus { outline: none; border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #22D3EE; outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0B0F19; }
+  ::-webkit-scrollbar-thumb { background: #232c40; border-radius: 8px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .float-chip, .caret { animation: none !important; }
+    .card-hover:hover { transform: none; }
+  }
+</style>
+</head>
+<body class="font-body text-txt antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-accent focus:text-white focus:px-4 focus:py-2 focus:rounded-md">Skip to content</a>
+
+<!-- NAVBAR -->
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+  <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#home" class="font-display font-semibold text-lg tracking-tight">
+      Pranesh<span class="text-accent"></span>Saravanan
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm text-txt2 font-medium">
+      <li><a href="#home" class="nav-link hover:text-txt transition-colors" data-nav="home">Home</a></li>
+      <li><a href="#about" class="nav-link hover:text-txt transition-colors" data-nav="about">About</a></li>
+      <li><a href="#skills" class="nav-link hover:text-txt transition-colors" data-nav="skills">Skills</a></li>
+      <li><a href="#experience" class="nav-link hover:text-txt transition-colors" data-nav="experience">Experience</a></li>
+      <li><a href="#projects" class="nav-link hover:text-txt transition-colors" data-nav="projects">Projects</a></li>
+      <li><a href="#services" class="nav-link hover:text-txt transition-colors" data-nav="services">Services</a></li>
+      <li><a href="#contact" class="nav-link hover:text-txt transition-colors" data-nav="contact">Contact</a></li>
+    </ul>
+
+    <a href="#contact" class="hidden md:inline-flex items-center gap-2 bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg btn-glow">
+      Let's Connect
+    </a>
+
+    <button id="menuBtn" aria-label="Toggle menu" aria-expanded="false" class="md:hidden p-2 -mr-2 text-txt">
+      <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
+      <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+  </nav>
+
+  <div id="mobileMenu" class="md:hidden hidden navbar-solid border-t border-white/5">
+    <ul class="flex flex-col px-5 py-4 gap-1 text-sm font-medium text-txt2">
+      <li><a href="#home" class="block py-2.5 mobile-link">Home</a></li>
+      <li><a href="#about" class="block py-2.5 mobile-link">About</a></li>
+      <li><a href="#skills" class="block py-2.5 mobile-link">Skills</a></li>
+      <li><a href="#experience" class="block py-2.5 mobile-link">Experience</a></li>
+      <li><a href="#projects" class="block py-2.5 mobile-link">Projects</a></li>
+      <li><a href="#services" class="block py-2.5 mobile-link">Services</a></li>
+      <li><a href="#contact" class="block py-2.5 mobile-link">Contact</a></li>
+      <li class="pt-2"><a href="#contact" class="block text-center bg-accent text-white font-semibold py-2.5 rounded-lg mobile-link">Let's Connect</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section id="home" class="relative pt-36 pb-24 px-5 sm:px-8 overflow-hidden">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+    <div data-reveal>
+      <span class="inline-flex items-center gap-2 text-sm font-mono text-accent2 bg-accent2/10 border border-accent2/25 px-3 py-1.5 rounded-full">
+        👋 Hello, I'm Pranesh
+      </span>
+
+      <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.12] mt-6">
+        Computer Science Student &amp;<br class="hidden sm:block" />
+        Aspiring <span class="grad-text">Full Stack Developer</span>
+      </h1>
+
+      <p class="font-display text-xl sm:text-2xl text-txt2 mt-4">Building Ideas Into Digital Experiences.</p>
+
+      <p class="text-txt2 mt-6 leading-relaxed max-w-xl">
+        I'm Pranesh Saravanan, a Computer Science and Engineering student passionate about technology, web development, and creating modern digital experiences.
+      </p>
+      <p class="text-txt2 mt-3 leading-relaxed max-w-xl">
+        I enjoy turning ideas into functional, responsive, and user-friendly applications while continuously learning new technologies.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 mt-9">
+        <a href="#projects" class="btn-glow inline-flex items-center gap-2 bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          View My Projects
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 border border-white/15 text-txt font-semibold px-6 py-3 rounded-lg text-sm hover:border-accent2/60 hover:text-accent2 transition-colors">
+          Contact Me
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4 mt-9">
+        <a href="#" aria-label="GitHub profile" class="w-10 h-10 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+          <svg class="w-4.5 h-4.5" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.14c-3.16.69-3.83-1.36-3.83-1.36-.52-1.32-1.26-1.68-1.26-1.68-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.73.4-1.24.72-1.53-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.14 1.16.91-.26 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.13-1.16 3.13-1.16.63 1.58.23 2.75.12 3.04.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.11v3.13c0 .3.21.66.79.55 4.51-1.51 7.77-5.76 7.77-10.78C23.02 5.24 18.27.5 12 .5z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn profile" class="w-10 h-10 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        </a>
+        <a href="#" aria-label="Email Pranesh" class="w-10 h-10 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3V5zm0 0l9 7 9-7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="relative" data-reveal>
+      <div class="absolute -top-8 -left-4 sm:left-2 float-chip">
+        <span class="font-mono text-xs bg-card border border-white/10 px-3 py-1.5 rounded-lg text-accent2 shadow-lg">&lt;/&gt;</span>
+      </div>
+      <div class="absolute top-10 -right-2 sm:right-4 float-chip d2">
+        <span class="font-mono text-xs bg-card border border-white/10 px-3 py-1.5 rounded-lg text-accent shadow-lg">{ }</span>
+      </div>
+      <div class="absolute -bottom-6 left-4 float-chip d3">
+        <span class="font-mono text-xs bg-card border border-white/10 px-3 py-1.5 rounded-lg text-ok shadow-lg">React</span>
+      </div>
+      <div class="absolute bottom-16 -right-6 float-chip d4 hidden sm:block">
+        <span class="font-mono text-xs bg-card border border-white/10 px-3 py-1.5 rounded-lg text-accent2 shadow-lg">Python</span>
+      </div>
+
+      <div class="relative mx-auto max-w-md">
+        <div class="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <img src="assets/profile.jpg" alt="Portrait of Pranesh Saravanan" class="w-full aspect-square object-cover" loading="eager" width="900" height="900" />
+        </div>
+
+        <!-- signature element: terminal card -->
+        <div class="card rounded-xl mt-5 p-4 font-mono text-xs sm:text-[13px] shadow-xl">
+          <div class="flex items-center gap-1.5 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+            <span class="ml-2 text-txt2">whoami.sh</span>
+          </div>
+          <div id="terminal" class="text-txt2 leading-relaxed min-h-[74px]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="px-5 sm:px-8 py-10 border-y border-white/5 bg-bg2/40">
+  <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center stagger">
+    <div data-reveal>
+      <p class="font-display font-bold text-3xl sm:text-4xl grad-text">01+</p>
+      <p class="text-txt2 text-sm mt-1">Years Learning &amp; Building</p>
+    </div>
+    <div data-reveal>
+      <p class="font-display font-bold text-3xl sm:text-4xl grad-text">10+</p>
+      <p class="text-txt2 text-sm mt-1">Technologies Explored</p>
+    </div>
+    <div data-reveal>
+      <p class="font-display font-bold text-3xl sm:text-4xl grad-text">05+</p>
+      <p class="text-txt2 text-sm mt-1">Projects Built</p>
+    </div>
+    <div data-reveal>
+      <p class="font-display font-bold text-3xl sm:text-4xl grad-text">&infin;</p>
+      <p class="text-txt2 text-sm mt-1">Curiosity to Learn</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="px-5 sm:px-8 py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// About Me</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">About Me</h2>
+      <p class="text-txt2 mt-3">Passionate about technology, development, and solving real-world problems.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-10">
+      <div class="lg:col-span-2 space-y-5 text-txt2 leading-relaxed" data-reveal>
+        <p>I'm Pranesh Saravanan, a Computer Science and Engineering student at Jeppiaar Engineering College, passionate about technology, web development, and creating modern digital experiences.</p>
+        <p>I'm currently developing my skills in Full Stack Development, with a focus on HTML, CSS, JavaScript, React.js, Python, databases, and REST APIs. I enjoy turning ideas into functional, responsive, and user-friendly applications while continuously learning new technologies.</p>
+        <p>Along with development, I have hands-on experience in application and website testing, bug reporting, and Zoho CRM, which has helped me understand software from both a developer and user perspective.</p>
+        <p>I'm particularly interested in UI/UX design, clean interfaces, problem-solving, and building applications that are simple and effective.</p>
+        <p>I consider myself a curious learner, hardworking developer, and problem solver who enjoys exploring new technologies and taking on challenging projects.</p>
+        <p class="text-txt font-medium border-l-2 border-accent pl-4">My goal is to grow as a Full Stack Developer and build impactful software that solves real-world problems.</p>
+      </div>
+
+      <div class="card rounded-2xl p-6 card-hover h-fit" data-reveal>
+        <h3 class="font-display font-semibold text-lg mb-4">Developer Mindset</h3>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>Curious Learner</li>
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>Problem Solver</li>
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>Clean Code</li>
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>User-Focused</li>
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>Continuous Learning</li>
+          <li class="flex items-center gap-2.5 text-txt2"><span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>Team Player</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="px-5 sm:px-8 py-24 sm:py-28 bg-bg2/40 border-y border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Skills</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Technical Skills</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="skillGroups">
+      <!-- filled by JS from data below for consistency, but written statically for no-JS fallback -->
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="px-5 sm:px-8 py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Toolbox</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">My Tech Stack</h2>
+    </div>
+
+    <div class="flex flex-wrap gap-4" id="techStack" data-reveal></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="px-5 sm:px-8 py-24 sm:py-28 bg-bg2/40 border-y border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Timeline</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Experience &amp; Practical Exposure</h2>
+    </div>
+
+    <div class="relative max-w-3xl">
+      <div class="absolute left-[15px] top-2 bottom-2 w-px timeline-line hidden sm:block"></div>
+
+      <div class="space-y-10">
+        <div class="sm:pl-12 relative" data-reveal>
+          <span class="hidden sm:flex absolute left-0 top-1 w-8 h-8 rounded-full bg-accent/15 border border-accent/40 items-center justify-center">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
+          </span>
+          <div class="card rounded-2xl p-6 card-hover">
+            <h3 class="font-display font-semibold text-lg">Application &amp; Website Testing</h3>
+            <p class="text-txt2 text-sm mt-3 leading-relaxed">Hands-on practice testing web applications: identifying functional issues, checking UI behavior, validating user flows, and finding usability problems before they reach users.</p>
+          </div>
+        </div>
+
+        <div class="sm:pl-12 relative" data-reveal>
+          <span class="hidden sm:flex absolute left-0 top-1 w-8 h-8 rounded-full bg-accent2/15 border border-accent2/40 items-center justify-center">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent2"></span>
+          </span>
+          <div class="card rounded-2xl p-6 card-hover">
+            <h3 class="font-display font-semibold text-lg">Bug Reporting</h3>
+            <p class="text-txt2 text-sm mt-3 leading-relaxed">Clear, structured bug documentation with reproduction steps, expected vs. actual behavior, severity/prioritization, and close communication with developers.</p>
+          </div>
+        </div>
+
+        <div class="sm:pl-12 relative" data-reveal>
+          <span class="hidden sm:flex absolute left-0 top-1 w-8 h-8 rounded-full bg-ok/15 border border-ok/40 items-center justify-center">
+            <span class="w-2.5 h-2.5 rounded-full bg-ok"></span>
+          </span>
+          <div class="card rounded-2xl p-6 card-hover">
+            <h3 class="font-display font-semibold text-lg">Zoho CRM</h3>
+            <p class="text-txt2 text-sm mt-3 leading-relaxed">Practical exposure to CRM workflows, user-oriented software systems, and data handling — building an understanding of business processes from an end-user perspective.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="px-5 sm:px-8 py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Work</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Featured Projects</h2>
+      <p class="text-txt2 mt-3 text-sm">Placeholder projects below — swap in real repos and live links anytime.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectGrid"></div>
+  </div>
+</section>
+
+<!-- UI/UX -->
+<section class="px-5 sm:px-8 py-24 sm:py-28 relative overflow-hidden" style="background: linear-gradient(180deg, rgba(99,102,241,0.08), transparent 60%), #0B0F19;">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+    <div data-reveal>
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Design</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">Designing With the User in Mind</h2>
+      <p class="text-txt2 mt-5 leading-relaxed max-w-lg">
+        I care about writing code that works — and just as much about shaping experiences that feel simple, intuitive, responsive, accessible, visually clean, and user-friendly.
+      </p>
+      <blockquote class="mt-6 border-l-2 border-accent2 pl-4 text-txt font-display text-lg leading-snug">
+        "Good software is not only about making something work. It's about making it easy and enjoyable for people to use."
+      </blockquote>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4" data-reveal>
+      <div class="card rounded-2xl p-5 opacity-60">
+        <p class="font-mono text-[11px] text-txt2 mb-3">BEFORE</p>
+        <div class="space-y-2">
+          <div class="h-3 w-full bg-white/10 rounded"></div>
+          <div class="h-3 w-4/5 bg-white/10 rounded"></div>
+          <div class="h-8 w-full bg-white/5 rounded mt-3"></div>
+          <div class="h-8 w-2/3 bg-white/5 rounded"></div>
+        </div>
+      </div>
+      <div class="card rounded-2xl p-5 border-accent2/40 card-hover">
+        <p class="font-mono text-[11px] text-accent2 mb-3">AFTER</p>
+        <div class="space-y-2.5">
+          <div class="h-3 w-2/3 bg-accent2/30 rounded"></div>
+          <div class="h-3 w-1/2 bg-white/10 rounded"></div>
+          <div class="h-9 w-full bg-accent/20 border border-accent/40 rounded-lg mt-3"></div>
+          <div class="h-9 w-full bg-white/5 border border-white/10 rounded-lg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="px-5 sm:px-8 py-24 sm:py-28 bg-bg2/40 border-y border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Process</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">How I Approach Development</h2>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-6 relative">
+      <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-accent via-accent2 to-ok"></div>
+
+      <div class="relative card rounded-2xl p-6 card-hover" data-reveal>
+        <span class="font-display font-bold text-3xl text-accent">01</span>
+        <h3 class="font-display font-semibold mt-3">Understand</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Understand the problem, requirements, and user needs.</p>
+      </div>
+      <div class="relative card rounded-2xl p-6 card-hover" data-reveal>
+        <span class="font-display font-bold text-3xl text-accent">02</span>
+        <h3 class="font-display font-semibold mt-3">Design</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Plan a clean, simple, and intuitive solution.</p>
+      </div>
+      <div class="relative card rounded-2xl p-6 card-hover" data-reveal>
+        <span class="font-display font-bold text-3xl text-accent2">03</span>
+        <h3 class="font-display font-semibold mt-3">Build</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Develop responsive and maintainable software.</p>
+      </div>
+      <div class="relative card rounded-2xl p-6 card-hover" data-reveal>
+        <span class="font-display font-bold text-3xl text-ok">04</span>
+        <h3 class="font-display font-semibold mt-3">Test &amp; Improve</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Test functionality, identify bugs, improve usability, and continuously refine the product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING -->
+<section class="px-5 sm:px-8 py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Growth</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Always Learning. Always Building.</h2>
+      <p class="text-txt2 mt-3 leading-relaxed">Technology is constantly evolving, and so am I. I enjoy exploring new frameworks, development practices, tools, and ideas that help me become a better developer.</p>
+    </div>
+
+    <div class="flex flex-wrap gap-3" id="learningTopics"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="px-5 sm:px-8 py-24 sm:py-28 bg-bg2/40 border-y border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Services</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">What I Can Build</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="card rounded-2xl p-6 card-hover" data-reveal>
+        <div class="w-11 h-11 rounded-xl bg-accent/15 border border-accent/30 grid place-items-center mb-4">
+          <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L4 12l5.75-5M14.25 7L20 12l-5.75 5"/></svg>
+        </div>
+        <h3 class="font-display font-semibold">Web Development</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Responsive and modern websites using HTML, CSS, JavaScript, and React.</p>
+      </div>
+      <div class="card rounded-2xl p-6 card-hover" data-reveal>
+        <div class="w-11 h-11 rounded-xl bg-accent2/15 border border-accent2/30 grid place-items-center mb-4">
+          <svg class="w-5 h-5 text-accent2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h10M4 17h16"/></svg>
+        </div>
+        <h3 class="font-display font-semibold">Full Stack Development</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Frontend and backend applications connected through APIs and databases.</p>
+      </div>
+      <div class="card rounded-2xl p-6 card-hover" data-reveal>
+        <div class="w-11 h-11 rounded-xl bg-ok/15 border border-ok/30 grid place-items-center mb-4">
+          <svg class="w-5 h-5 text-ok" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v11H4zM8 21h8M12 16v5"/></svg>
+        </div>
+        <h3 class="font-display font-semibold">UI/UX Implementation</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Clean, responsive interfaces focused on usability and user experience.</p>
+      </div>
+      <div class="card rounded-2xl p-6 card-hover" data-reveal>
+        <div class="w-11 h-11 rounded-xl bg-accent/15 border border-accent/30 grid place-items-center mb-4">
+          <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="font-display font-semibold">Testing &amp; Bug Reporting</h3>
+        <p class="text-txt2 text-sm mt-2 leading-relaxed">Application and website testing with clear and structured bug reporting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="px-5 sm:px-8 py-24 sm:py-28">
+  <div class="max-w-6xl mx-auto">
+    <div data-reveal class="mb-14 max-w-2xl">
+      <p class="font-mono text-xs text-accent2 tracking-widest uppercase mb-3">// Contact</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Let's Build Something Together</h2>
+      <p class="text-txt2 mt-3 leading-relaxed">Have an idea, project, internship opportunity, or simply want to connect? I'd love to hear from you.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-10">
+      <form id="contactForm" class="lg:col-span-3 card rounded-2xl p-6 sm:p-8 space-y-5" data-reveal novalidate>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="name" class="block text-xs font-mono text-txt2 mb-2">Name</label>
+            <input id="name" name="name" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Your name" />
+          </div>
+          <div>
+            <label for="email" class="block text-xs font-mono text-txt2 mb-2">Email</label>
+            <input id="email" name="email" type="email" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div>
+          <label for="subject" class="block text-xs font-mono text-txt2 mb-2">Subject</label>
+          <input id="subject" name="subject" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="What's this about?" />
+        </div>
+        <div>
+          <label for="message" class="block text-xs font-mono text-txt2 mb-2">Message</label>
+          <textarea id="message" name="message" rows="5" required class="w-full rounded-lg px-4 py-3 text-sm resize-none" placeholder="Tell me a bit more..."></textarea>
+        </div>
+        <button type="submit" class="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          Send Message
+        </button>
+        <p id="formNote" class="text-xs text-txt2" aria-live="polite"></p>
+      </form>
+
+      <div class="lg:col-span-2 space-y-4" data-reveal>
+        <div class="card rounded-2xl p-5 flex items-center gap-4 card-hover">
+          <div class="w-11 h-11 rounded-xl bg-accent/15 border border-accent/30 grid place-items-center shrink-0">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3V5zm0 0l9 7 9-7"/></svg>
+          </div>
+          <div>
+            <p class="text-xs font-mono text-txt2">Email</p>
+            <p class="text-sm font-medium">[Add your email]</p>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-5 flex items-center gap-4 card-hover">
+          <div class="w-11 h-11 rounded-xl bg-accent2/15 border border-accent2/30 grid place-items-center shrink-0">
+            <svg class="w-5 h-5 text-accent2" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </div>
+          <div>
+            <p class="text-xs font-mono text-txt2">LinkedIn</p>
+            <p class="text-sm font-medium">[Add your LinkedIn URL]</p>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-5 flex items-center gap-4 card-hover">
+          <div class="w-11 h-11 rounded-xl bg-ok/15 border border-ok/30 grid place-items-center shrink-0">
+            <svg class="w-5 h-5 text-ok" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.14c-3.16.69-3.83-1.36-3.83-1.36-.52-1.32-1.26-1.68-1.26-1.68-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.73.4-1.24.72-1.53-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.14 1.16.91-.26 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.13-1.16 3.13-1.16.63 1.58.23 2.75.12 3.04.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.11v3.13c0 .3.21.66.79.55 4.51-1.51 7.77-5.76 7.77-10.78C23.02 5.24 18.27.5 12 .5z"/></svg>
+          </div>
+          <div>
+            <p class="text-xs font-mono text-txt2">GitHub</p>
+            <p class="text-sm font-medium">[Add your GitHub URL]</p>
+          </div>
+        </div>
+
+        <a href="#" id="resumeBtn" class="btn-glow flex items-center justify-center gap-2 border border-white/15 text-txt font-semibold px-6 py-3 rounded-lg text-sm hover:border-accent2/60 hover:text-accent2 transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          Download Resume
+        </a>
+        <p class="text-xs text-txt2 text-center">Add your resume file at <code class="font-mono">/assets/resume.pdf</code> and link it above.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="px-5 sm:px-8 py-12 border-t border-white/5 bg-bg2/40">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="text-center md:text-left">
+      <p class="font-display font-semibold text-lg">Pranesh Saravanan</p>
+      <p class="text-txt2 text-sm mt-1">Computer Science &amp; Engineering Student | Aspiring Full Stack Developer</p>
+    </div>
+
+    <ul class="flex flex-wrap items-center justify-center gap-6 text-sm text-txt2 font-medium">
+      <li><a href="#home" class="hover:text-accent2 transition-colors">Home</a></li>
+      <li><a href="#about" class="hover:text-accent2 transition-colors">About</a></li>
+      <li><a href="#skills" class="hover:text-accent2 transition-colors">Skills</a></li>
+      <li><a href="#projects" class="hover:text-accent2 transition-colors">Projects</a></li>
+      <li><a href="#contact" class="hover:text-accent2 transition-colors">Contact</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <a href="#" aria-label="GitHub" class="w-9 h-9 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.14c-3.16.69-3.83-1.36-3.83-1.36-.52-1.32-1.26-1.68-1.26-1.68-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.73.4-1.24.72-1.53-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.14 1.16.91-.26 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.13-1.16 3.13-1.16.63 1.58.23 2.75.12 3.04.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.11v3.13c0 .3.21.66.79.55 4.51-1.51 7.77-5.76 7.77-10.78C23.02 5.24 18.27.5 12 .5z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn" class="w-9 h-9 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <a href="#" aria-label="Email" class="w-9 h-9 grid place-items-center rounded-full border border-white/10 text-txt2 hover:text-accent2 hover:border-accent2/50 transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3V5zm0 0l9 7 9-7"/></svg>
+      </a>
+    </div>
+  </div>
+  <p class="text-center text-xs text-txt2/70 mt-10">© 2026 Pranesh Saravanan. Built with passion and code.</p>
+</footer>
+
+<script>
+/* ---------- Data ---------- */
+const skillGroups = [
+  { title: "Frontend", items: ["HTML5","CSS3","JavaScript","React.js","Responsive Design","UI/UX Principles"] },
+  { title: "Backend", items: ["Python","REST APIs","Backend Development","API Integration"] },
+  { title: "Database", items: ["SQL","Relational Databases","Database Management"] },
+  { title: "Tools & Platforms", items: ["Git","GitHub","Zoho CRM","VS Code","API Testing Tools"] },
+  { title: "Software Testing", items: ["Application Testing","Website Testing","Bug Reporting","Functional Testing","UI Testing","Test Case Execution"] },
+];
+
+const techStack = ["HTML","CSS","JavaScript","React","Python","SQL","REST API","Git","GitHub","Zoho CRM"];
+
+const projects = [
+  { n: "01", title: "Full Stack Web Application", desc: "A responsive full-stack application designed to solve a practical user problem with a clean interface and efficient backend architecture.", tech: ["React.js","Python","REST API","SQL"] },
+  { n: "02", title: "Responsive Web Application", desc: "A modern responsive web experience focused on usability, accessibility, and clean UI design.", tech: ["HTML","CSS","JavaScript","React"] },
+  { n: "03", title: "Testing & Bug Reporting Project", desc: "A practical testing project focused on identifying application issues, documenting bugs, and validating user workflows.", tech: ["Manual Testing","Bug Reporting","UI Testing"] },
+];
+
+const learningTopics = ["Advanced React","Full Stack Architecture","Backend Development","Database Design","API Development","Cloud Technologies","UI/UX Design","Software Testing"];
+
+/* ---------- Render skills ---------- */
+const skillGroupsEl = document.getElementById('skillGroups');
+skillGroups.forEach(group => {
+  const wrap = document.createElement('div');
+  wrap.className = 'card rounded-2xl p-6 card-hover';
+  wrap.setAttribute('data-reveal', '');
+  wrap.innerHTML = `
+    <h3 class="font-display font-semibold mb-4">${group.title}</h3>
+    <div class="flex flex-wrap gap-2">
+      ${group.items.map(s => `<span class="font-mono text-xs bg-white/5 border border-white/10 text-txt2 px-2.5 py-1.5 rounded-md hover:border-accent2/50 hover:text-accent2 transition-colors">${s}</span>`).join('')}
+    </div>`;
+  skillGroupsEl.appendChild(wrap);
+});
+
+/* ---------- Render tech stack ---------- */
+const techStackEl = document.getElementById('techStack');
+techStack.forEach(t => {
+  const chip = document.createElement('div');
+  chip.className = 'group relative';
+  chip.innerHTML = `
+    <div class="card w-16 h-16 sm:w-20 sm:h-20 rounded-2xl grid place-items-center font-mono text-[11px] sm:text-xs text-txt2 card-hover cursor-default hover:text-accent2 text-center px-1">${t}</div>
+    <span class="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 bg-card border border-white/10 text-xs px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">${t}</span>
+  `;
+  techStackEl.appendChild(chip);
+});
+
+/* ---------- Render projects ---------- */
+const projectGrid = document.getElementById('projectGrid');
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'card rounded-2xl overflow-hidden card-hover group';
+  card.setAttribute('data-reveal', '');
+  card.innerHTML = `
+    <div class="h-40 bg-gradient-to-br from-accent/25 via-bg2 to-accent2/20 flex items-center justify-center relative">
+      <span class="font-display font-bold text-4xl text-white/10">${p.n}</span>
+      <span class="absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wide bg-black/40 border border-white/10 px-2 py-1 rounded-full text-txt2">Placeholder</span>
+    </div>
+    <div class="p-6">
+      <h3 class="font-display font-semibold text-lg">${p.title}</h3>
+      <p class="text-txt2 text-sm mt-2 leading-relaxed">${p.desc}</p>
+      <div class="flex flex-wrap gap-2 mt-4">
+        ${p.tech.map(t => `<span class="font-mono text-[11px] bg-white/5 border border-white/10 text-accent2 px-2 py-1 rounded">${t}</span>`).join('')}
+      </div>
+      <div class="flex items-center gap-3 mt-5 text-sm">
+        <a href="#" class="text-txt2 hover:text-accent2 transition-colors font-medium">GitHub</a>
+        <span class="text-white/10">|</span>
+        <a href="#" class="text-txt2 hover:text-accent2 transition-colors font-medium">Live Demo</a>
+        <span class="text-white/10">|</span>
+        <a href="#" class="text-txt2 hover:text-accent2 transition-colors font-medium">Details</a>
+      </div>
+    </div>`;
+  projectGrid.appendChild(card);
+});
+
+/* ---------- Render learning topics ---------- */
+const learningEl = document.getElementById('learningTopics');
+learningTopics.forEach(t => {
+  const el = document.createElement('span');
+  el.setAttribute('data-reveal','');
+  el.className = 'card px-4 py-2.5 rounded-full text-sm text-txt2 card-hover hover:text-accent2 flex items-center gap-2';
+  el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-accent2"></span>${t}`;
+  learningEl.appendChild(el);
+});
+
+/* ---------- Reveal on scroll ---------- */
+const revealEls = document.querySelectorAll('[data-reveal]');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => io.observe(el));
+
+/* ---------- Navbar scroll state + scrollspy ---------- */
+const navbar = document.getElementById('navbar');
+const sections = ['home','about','skills','experience','projects','services','contact'].map(id => document.getElementById(id)).filter(Boolean);
+const navLinks = document.querySelectorAll('.nav-link');
+
+function onScroll(){
+  navbar.classList.toggle('navbar-solid', window.scrollY > 24);
+  navbar.classList.toggle('glass', window.scrollY <= 24);
+
+  let current = sections[0]?.id;
+  const offset = 110;
+  sections.forEach(sec => { if (window.scrollY + offset >= sec.offsetTop) current = sec.id; });
+  navLinks.forEach(link => link.classList.toggle('active', link.dataset.nav === current));
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ---------- Mobile menu ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const iconOpen = document.getElementById('iconOpen');
+const iconClose = document.getElementById('iconClose');
+menuBtn.addEventListener('click', () => {
+  const isOpen = !mobileMenu.classList.contains('hidden');
+  mobileMenu.classList.toggle('hidden');
+  iconOpen.classList.toggle('hidden', !isOpen);
+  iconClose.classList.toggle('hidden', isOpen);
+  menuBtn.setAttribute('aria-expanded', String(!isOpen));
+});
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+  mobileMenu.classList.add('hidden');
+  iconOpen.classList.remove('hidden');
+  iconClose.classList.add('hidden');
+}));
+
+/* ---------- Terminal typing effect ---------- */
+const terminalLines = [
+  "$ whoami",
+  "> pranesh_saravanan.dev",
+  "",
+  "$ cat focus.md",
+  "> CS student. Full-stack learner.",
+  "> Currently building with React + Python."
+];
+const terminalEl = document.getElementById('terminal');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function typeTerminal(){
+  if (reduceMotion) {
+    terminalEl.innerHTML = terminalLines.map(l => `<div>${l || '&nbsp;'}</div>`).join('');
+    return;
+  }
+  let li = 0, ci = 0;
+  const container = document.createElement('div');
+  terminalEl.innerHTML = '';
+  terminalEl.appendChild(container);
+
+  function step(){
+    if (li >= terminalLines.length) {
+      const caret = document.createElement('span');
+      caret.className = 'caret';
+      terminalEl.appendChild(caret);
+      return;
+    }
+    const line = terminalLines[li];
+    if (ci === 0) container.appendChild(document.createElement('div'));
+    const lineEl = container.children[li];
+    if (ci <= line.length) {
+      lineEl.textContent = line.slice(0, ci) || '\u00A0';
+      ci++;
+      setTimeout(step, line.startsWith('$') ? 45 : 22);
+    } else {
+      li++; ci = 0;
+      setTimeout(step, 260);
+    }
+  }
+  step();
+}
+const termObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { typeTerminal(); termObserver.disconnect(); } });
+}, { threshold: 0.3 });
+termObserver.observe(terminalEl);
+
+/* ---------- Contact form (mailto fallback, no backend) ---------- */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const subject = document.getElementById('subject').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const note = document.getElementById('formNote');
+
+  if (!name || !email || !subject || !message) {
+    note.textContent = 'Please fill in every field before sending.';
+    note.className = 'text-xs text-red-400';
+    return;
+  }
+
+  const to = 'your.email@example.com'; // TODO: replace with your real email
+  const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+  note.textContent = 'Opening your email app to send this — update the address in the code once your inbox is set.';
+  note.className = 'text-xs text-ok';
+});
+</script>
+</body>
+</html>
