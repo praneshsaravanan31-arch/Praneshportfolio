@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Pranesh Saravanan</title>
+  <meta name="description" content="Admin Dashboard - Manage Projects and Portfolio Content" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0B0F19',
+            bg2: '#111827',
+            card: '#151D2E',
+            txt: '#F8FAFC',
+            txt2: '#94A3B8',
+            accent: '#6366F1',
+            accent2: '#22D3EE',
+            ok: '#22C55E',
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { color-scheme: dark; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0B0F19;
+      background-image:
+        radial-gradient(circle at 15% 8%, rgba(99,102,241,0.14), transparent 40%),
+        radial-gradient(circle at 85% 78%, rgba(34,211,238,0.10), transparent 45%),
+        linear-gradient(rgba(148,163,184,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,0.055) 1px, transparent 1px);
+      background-size: auto, auto, 44px 44px, 44px 44px;
+      background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    }
+
+    .card { background: #151D2E; border: 1px solid rgba(148,163,184,0.10); }
+    .card-hover { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    .card-hover:hover { transform: translateY(-4px); border-color: rgba(99,102,241,0.45); box-shadow: 0 12px 32px -12px rgba(99,102,241,0.35); }
+
+    .btn-glow { transition: box-shadow .25s ease, transform .2s ease, background-color .2s ease; }
+    .btn-glow:hover { box-shadow: 0 0 0 1px rgba(99,102,241,0.6), 0 8px 28px -6px rgba(99,102,241,0.55); transform: translateY(-2px); }
+
+    input, textarea { background: #0F1523; border: 1px solid rgba(148,163,184,0.16); color: #F8FAFC; }
+    input:focus, textarea:focus { outline: none; border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
+
+    .grad-text {
+      background: linear-gradient(90deg, #6366F1, #22D3EE);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .modal-backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
+    .hidden { display: none; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #0B0F19; }
+    ::-webkit-scrollbar-thumb { background: #232c40; border-radius: 8px; }
+  </style>
+</head>
+<body class="font-body text-txt antialiased">
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="fixed inset-0 bg-bg flex items-center justify-center z-50">
+  <div class="card rounded-2xl p-8 max-w-sm w-full mx-4">
+    <h1 class="font-display font-bold text-2xl text-center mb-2">Admin Dashboard</h1>
+    <p class="text-txt2 text-center text-sm mb-8">Sign in to manage your portfolio</p>
+
+    <form id="loginForm" class="space-y-5" novalidate>
+      <div>
+        <label for="username" class="block text-xs font-mono text-txt2 mb-2">Username</label>
+        <input id="username" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Enter username" />
+      </div>
+      <div>
+        <label for="password" class="block text-xs font-mono text-txt2 mb-2">Password</label>
+        <input id="password" type="password" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Enter password" />
+      </div>
+      <button type="submit" class="btn-glow w-full bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+        Sign In
+      </button>
+      <p id="loginError" class="text-xs text-red-400 text-center hidden"></p>
+      <p class="text-xs text-txt2 text-center">
+        Demo: <strong>admin</strong> / <strong>password123</strong>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div id="dashboardScreen" class="hidden min-h-screen">
+  <!-- HEADER -->
+  <header class="bg-bg2/40 border-b border-white/5 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <div>
+        <h1 class="font-display font-bold text-xl">Dashboard</h1>
+        <p class="text-txt2 text-xs">Manage your portfolio content</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="userDisplay" class="text-sm text-txt2"></span>
+        <button id="logoutBtn" class="btn-glow bg-red-600/20 text-red-400 border border-red-600/30 hover:bg-red-600/30 px-4 py-2 rounded-lg text-sm font-medium">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 sm:px-8 py-12">
+    <!-- TABS -->
+    <div class="flex gap-4 mb-8 border-b border-white/5 overflow-x-auto pb-4">
+      <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-accent text-txt" data-tab="projects">
+        Projects
+      </button>
+      <button class="tab-btn px-4 py-2 text-sm font-medium text-txt2 hover:text-txt" data-tab="skills">
+        Skills
+      </button>
+      <button class="tab-btn px-4 py-2 text-sm font-medium text-txt2 hover:text-txt" data-tab="experience">
+        Experience
+      </button>
+    </div>
+
+    <!-- PROJECTS TAB -->
+    <div id="projectsTab" class="tab-content">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display font-bold text-2xl">Projects Management</h2>
+        <button id="addProjectBtn" class="btn-glow bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          + Add Project
+        </button>
+      </div>
+
+      <div id="projectsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- SKILLS TAB -->
+    <div id="skillsTab" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display font-bold text-2xl">Skills Management</h2>
+        <button id="addSkillBtn" class="btn-glow bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          + Add Skill
+        </button>
+      </div>
+
+      <div id="skillsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- EXPERIENCE TAB -->
+    <div id="experienceTab" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display font-bold text-2xl">Experience Management</h2>
+        <button id="addExperienceBtn" class="btn-glow bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          + Add Experience
+        </button>
+      </div>
+
+      <div id="experienceList" class="space-y-4"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ADD/EDIT PROJECT MODAL -->
+<div id="projectModal" class="modal-backdrop fixed inset-0 hidden z-50 flex items-center justify-center p-4">
+  <div class="card rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <h2 id="projectModalTitle" class="font-display font-bold text-2xl mb-6">Add New Project</h2>
+
+    <form id="projectForm" class="space-y-5" novalidate>
+      <div>
+        <label for="projectTitle" class="block text-xs font-mono text-txt2 mb-2">Project Title</label>
+        <input id="projectTitle" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="Project name" />
+      </div>
+      <div>
+        <label for="projectDesc" class="block text-xs font-mono text-txt2 mb-2">Description</label>
+        <textarea id="projectDesc" rows="4" required class="w-full rounded-lg px-4 py-3 text-sm resize-none" placeholder="Project description"></textarea>
+      </div>
+      <div>
+        <label for="projectTech" class="block text-xs font-mono text-txt2 mb-2">Technologies (comma separated)</label>
+        <input id="projectTech" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="React, Node.js, MongoDB" />
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label for="projectGithub" class="block text-xs font-mono text-txt2 mb-2">GitHub Link</label>
+          <input id="projectGithub" type="url" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="https://github.com/..." />
+        </div>
+        <div>
+          <label for="projectDemo" class="block text-xs font-mono text-txt2 mb-2">Live Demo Link</label>
+          <input id="projectDemo" type="url" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="https://..." />
+        </div>
+      </div>
+      <div class="flex gap-3 pt-6">
+        <button type="submit" id="projectSubmitBtn" class="btn-glow flex-1 bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          Save Project
+        </button>
+        <button type="button" class="modalCloseBtn flex-1 bg-white/10 text-txt font-semibold px-6 py-3 rounded-lg text-sm hover:bg-white/15">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADD/EDIT SKILL MODAL -->
+<div id="skillModal" class="modal-backdrop fixed inset-0 hidden z-50 flex items-center justify-center p-4">
+  <div class="card rounded-2xl p-8 max-w-2xl w-full">
+    <h2 id="skillModalTitle" class="font-display font-bold text-2xl mb-6">Add New Skill</h2>
+
+    <form id="skillForm" class="space-y-5" novalidate>
+      <div>
+        <label for="skillCategory" class="block text-xs font-mono text-txt2 mb-2">Category</label>
+        <input id="skillCategory" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g., Frontend, Backend, Database" />
+      </div>
+      <div>
+        <label for="skillName" class="block text-xs font-mono text-txt2 mb-2">Skill Name</label>
+        <input id="skillName" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g., React.js" />
+      </div>
+      <div class="flex gap-3 pt-6">
+        <button type="submit" id="skillSubmitBtn" class="btn-glow flex-1 bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          Save Skill
+        </button>
+        <button type="button" class="modalCloseBtn flex-1 bg-white/10 text-txt font-semibold px-6 py-3 rounded-lg text-sm hover:bg-white/15">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADD/EDIT EXPERIENCE MODAL -->
+<div id="experienceModal" class="modal-backdrop fixed inset-0 hidden z-50 flex items-center justify-center p-4">
+  <div class="card rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <h2 id="experienceModalTitle" class="font-display font-bold text-2xl mb-6">Add New Experience</h2>
+
+    <form id="experienceForm" class="space-y-5" novalidate>
+      <div>
+        <label for="experienceTitle" class="block text-xs font-mono text-txt2 mb-2">Title</label>
+        <input id="experienceTitle" type="text" required class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g., Application Testing" />
+      </div>
+      <div>
+        <label for="experienceDesc" class="block text-xs font-mono text-txt2 mb-2">Description</label>
+        <textarea id="experienceDesc" rows="4" required class="w-full rounded-lg px-4 py-3 text-sm resize-none" placeholder="Experience description"></textarea>
+      </div>
+      <div class="flex gap-3 pt-6">
+        <button type="submit" id="experienceSubmitBtn" class="btn-glow flex-1 bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+          Save Experience
+        </button>
+        <button type="button" class="modalCloseBtn flex-1 bg-white/10 text-txt font-semibold px-6 py-3 rounded-lg text-sm hover:bg-white/15">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ========== AUTHENTICATION ========== */
+const DEMO_USER = { username: 'admin', password: 'password123' };
+let currentUser = null;
+
+function checkAuth() {
+  const stored = localStorage.getItem('dashboardUser');
+  if (stored) {
+    currentUser = JSON.parse(stored);
+    showDashboard();
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorEl = document.getElementById('loginError');
+
+  if (username === DEMO_USER.username && password === DEMO_USER.password) {
+    currentUser = { username };
+    localStorage.setItem('dashboardUser', JSON.stringify(currentUser));
+    errorEl.classList.add('hidden');
+    showDashboard();
+  } else {
+    errorEl.textContent = 'Invalid username or password';
+    errorEl.classList.remove('hidden');
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  currentUser = null;
+  localStorage.removeItem('dashboardUser');
+  localStorage.removeItem('dashboardProjects');
+  localStorage.removeItem('dashboardSkills');
+  localStorage.removeItem('dashboardExperience');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('dashboardScreen').classList.add('hidden');
+  document.getElementById('loginForm').reset();
+});
+
+function showDashboard() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('dashboardScreen').classList.remove('hidden');
+  document.getElementById('userDisplay').textContent = `Welcome, ${currentUser.username}!`;
+  loadAllData();
+}
+
+/* ========== DATA MANAGEMENT ========== */
+let projects = [];
+let skills = [];
+let experience = [];
+
+function loadAllData() {
+  projects = JSON.parse(localStorage.getItem('dashboardProjects')) || [];
+  skills = JSON.parse(localStorage.getItem('dashboardSkills')) || [];
+  experience = JSON.parse(localStorage.getItem('dashboardExperience')) || [];
+  renderProjects();
+  renderSkills();
+  renderExperience();
+}
+
+function saveProjects() {
+  localStorage.setItem('dashboardProjects', JSON.stringify(projects));
+  renderProjects();
+}
+
+function saveSkills() {
+  localStorage.setItem('dashboardSkills', JSON.stringify(skills));
+  renderSkills();
+}
+
+function saveExperience() {
+  localStorage.setItem('dashboardExperience', JSON.stringify(experience));
+  renderExperience();
+}
+
+/* ========== PROJECTS CRUD ========== */
+let editingProjectId = null;
+
+document.getElementById('addProjectBtn').addEventListener('click', () => {
+  editingProjectId = null;
+  document.getElementById('projectForm').reset();
+  document.getElementById('projectModalTitle').textContent = 'Add New Project';
+  document.getElementById('projectModal').classList.remove('hidden');
+});
+
+document.getElementById('projectForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const project = {
+    id: editingProjectId || Date.now(),
+    title: document.getElementById('projectTitle').value,
+    desc: document.getElementById('projectDesc').value,
+    tech: document.getElementById('projectTech').value.split(',').map(t => t.trim()),
+    github: document.getElementById('projectGithub').value,
+    demo: document.getElementById('projectDemo').value
+  };
+
+  if (editingProjectId) {
+    const idx = projects.findIndex(p => p.id === editingProjectId);
+    projects[idx] = project;
+  } else {
+    projects.push(project);
+  }
+  
+  saveProjects();
+  document.getElementById('projectModal').classList.add('hidden');
+});
+
+function renderProjects() {
+  const list = document.getElementById('projectsList');
+  list.innerHTML = projects.length ? projects.map(p => `
+    <div class="card rounded-2xl p-6 card-hover">
+      <h3 class="font-display font-semibold text-lg">${p.title}</h3>
+      <p class="text-txt2 text-sm mt-2 line-clamp-2">${p.desc}</p>
+      <div class="flex flex-wrap gap-1 mt-3">
+        ${p.tech.map(t => `<span class="text-xs bg-accent/20 text-accent2 px-2 py-1 rounded">${t}</span>`).join('')}
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button class="editProjectBtn flex-1 text-xs bg-accent/20 text-accent hover:bg-accent/30 px-3 py-2 rounded" data-id="${p.id}">Edit</button>
+        <button class="deleteProjectBtn flex-1 text-xs bg-red-600/20 text-red-400 hover:bg-red-600/30 px-3 py-2 rounded" data-id="${p.id}">Delete</button>
+      </div>
+    </div>
+  `).join('') : '<p class="text-txt2 col-span-full text-center py-12">No projects yet. Add one to get started!</p>';
+
+  document.querySelectorAll('.editProjectBtn').forEach(btn => {
+    btn.addEventListener('click', () => editProject(parseInt(btn.dataset.id)));
+  });
+
+  document.querySelectorAll('.deleteProjectBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this project?')) {
+        projects = projects.filter(p => p.id !== parseInt(btn.dataset.id));
+        saveProjects();
+      }
+    });
+  });
+}
+
+function editProject(id) {
+  const project = projects.find(p => p.id === id);
+  if (!project) return;
+
+  editingProjectId = id;
+  document.getElementById('projectTitle').value = project.title;
+  document.getElementById('projectDesc').value = project.desc;
+  document.getElementById('projectTech').value = project.tech.join(', ');
+  document.getElementById('projectGithub').value = project.github || '';
+  document.getElementById('projectDemo').value = project.demo || '';
+  document.getElementById('projectModalTitle').textContent = 'Edit Project';
+  document.getElementById('projectModal').classList.remove('hidden');
+}
+
+/* ========== SKILLS CRUD ========== */
+let editingSkillId = null;
+
+document.getElementById('addSkillBtn').addEventListener('click', () => {
+  editingSkillId = null;
+  document.getElementById('skillForm').reset();
+  document.getElementById('skillModalTitle').textContent = 'Add New Skill';
+  document.getElementById('skillModal').classList.remove('hidden');
+});
+
+document.getElementById('skillForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const skill = {
+    id: editingSkillId || Date.now(),
+    category: document.getElementById('skillCategory').value,
+    name: document.getElementById('skillName').value
+  };
+
+  if (editingSkillId) {
+    const idx = skills.findIndex(s => s.id === editingSkillId);
+    skills[idx] = skill;
+  } else {
+    skills.push(skill);
+  }
+  
+  saveSkills();
+  document.getElementById('skillModal').classList.add('hidden');
+});
+
+function renderSkills() {
+  const list = document.getElementById('skillsList');
+  const grouped = {};
+  
+  skills.forEach(s => {
+    if (!grouped[s.category]) grouped[s.category] = [];
+    grouped[s.category].push(s);
+  });
+
+  list.innerHTML = Object.keys(grouped).length ? Object.entries(grouped).map(([cat, items]) => `
+    <div class="card rounded-2xl p-6">
+      <h3 class="font-display font-semibold text-lg mb-4">${cat}</h3>
+      <div class="space-y-2">
+        ${items.map(s => `
+          <div class="flex items-center justify-between bg-white/5 p-3 rounded">
+            <span class="text-sm">${s.name}</span>
+            <div class="flex gap-2">
+              <button class="editSkillBtn text-xs text-accent hover:text-accent2" data-id="${s.id}">Edit</button>
+              <button class="deleteSkillBtn text-xs text-red-400 hover:text-red-300" data-id="${s.id}">Del</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('') : '<p class="text-txt2 col-span-full text-center py-12">No skills yet.</p>';
+
+  document.querySelectorAll('.editSkillBtn').forEach(btn => {
+    btn.addEventListener('click', () => editSkill(parseInt(btn.dataset.id)));
+  });
+
+  document.querySelectorAll('.deleteSkillBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this skill?')) {
+        skills = skills.filter(s => s.id !== parseInt(btn.dataset.id));
+        saveSkills();
+      }
+    });
+  });
+}
+
+function editSkill(id) {
+  const skill = skills.find(s => s.id === id);
+  if (!skill) return;
+
+  editingSkillId = id;
+  document.getElementById('skillCategory').value = skill.category;
+  document.getElementById('skillName').value = skill.name;
+  document.getElementById('skillModalTitle').textContent = 'Edit Skill';
+  document.getElementById('skillModal').classList.remove('hidden');
+}
+
+/* ========== EXPERIENCE CRUD ========== */
+let editingExperienceId = null;
+
+document.getElementById('addExperienceBtn').addEventListener('click', () => {
+  editingExperienceId = null;
+  document.getElementById('experienceForm').reset();
+  document.getElementById('experienceModalTitle').textContent = 'Add New Experience';
+  document.getElementById('experienceModal').classList.remove('hidden');
+});
+
+document.getElementById('experienceForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const exp = {
+    id: editingExperienceId || Date.now(),
+    title: document.getElementById('experienceTitle').value,
+    desc: document.getElementById('experienceDesc').value
+  };
+
+  if (editingExperienceId) {
+    const idx = experience.findIndex(e => e.id === editingExperienceId);
+    experience[idx] = exp;
+  } else {
+    experience.push(exp);
+  }
+  
+  saveExperience();
+  document.getElementById('experienceModal').classList.add('hidden');
+});
+
+function renderExperience() {
+  const list = document.getElementById('experienceList');
+  list.innerHTML = experience.length ? experience.map(e => `
+    <div class="card rounded-2xl p-6 card-hover">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <h3 class="font-display font-semibold text-lg">${e.title}</h3>
+          <p class="text-txt2 text-sm mt-2">${e.desc}</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="editExperienceBtn text-xs bg-accent/20 text-accent hover:bg-accent/30 px-3 py-2 rounded" data-id="${e.id}">Edit</button>
+          <button class="deleteExperienceBtn text-xs bg-red-600/20 text-red-400 hover:bg-red-600/30 px-3 py-2 rounded" data-id="${e.id}">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('') : '<p class="text-txt2 text-center py-12">No experience yet.</p>';
+
+  document.querySelectorAll('.editExperienceBtn').forEach(btn => {
+    btn.addEventListener('click', () => editExperience(parseInt(btn.dataset.id)));
+  });
+
+  document.querySelectorAll('.deleteExperienceBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this experience?')) {
+        experience = experience.filter(e => e.id !== parseInt(btn.dataset.id));
+        saveExperience();
+      }
+    });
+  });
+}
+
+function editExperience(id) {
+  const exp = experience.find(e => e.id === id);
+  if (!exp) return;
+
+  editingExperienceId = id;
+  document.getElementById('experienceTitle').value = exp.title;
+  document.getElementById('experienceDesc').value = exp.desc;
+  document.getElementById('experienceModalTitle').textContent = 'Edit Experience';
+  document.getElementById('experienceModal').classList.remove('hidden');
+}
+
+/* ========== TAB SWITCHING ========== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active', 'border-accent', 'text-txt');
+      b.classList.add('text-txt2');
+    });
+    btn.classList.add('active', 'border-accent', 'text-txt');
+    
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    document.getElementById(tab + 'Tab').classList.remove('hidden');
+  });
+});
+
+/* ========== MODAL CLOSING ========== */
+document.querySelectorAll('.modalCloseBtn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.modal-backdrop').classList.add('hidden');
+  });
+});
+
+document.querySelectorAll('.modal-backdrop').forEach(modal => {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.add('hidden');
+  });
+});
+
+/* ========== INIT ========== */
+checkAuth();
+</script>
+</body>
+</html>
