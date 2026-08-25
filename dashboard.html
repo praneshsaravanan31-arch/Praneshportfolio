@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CRUD Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: '#0B0F19',
+              bg2: '#111827',
+              card: '#151D2E',
+              txt: '#F8FAFC',
+              txt2: '#94A3B8',
+              accent: '#6366F1',
+              accent2: '#22D3EE',
+              ok: '#22C55E',
+            },
+            fontFamily: {
+              display: ['"Space Grotesk"', 'sans-serif'],
+              body: ['Inter', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        background-color: #0B0F19;
+        background-image:
+          radial-gradient(circle at 15% 8%, rgba(99,102,241,0.14), transparent 40%),
+          radial-gradient(circle at 85% 78%, rgba(34,211,238,0.10), transparent 45%);
+      }
+      .glass { background: rgba(17,24,39,0.55); backdrop-filter: blur(14px); }
+      .card { background: #151D2E; border: 1px solid rgba(148,163,184,0.10); }
+      .card-hover { transition: transform .25s ease, border-color .25s ease; }
+      .card-hover:hover { transform: translateY(-4px); border-color: rgba(99,102,241,0.45); }
+      .btn-glow { transition: box-shadow .25s ease, transform .2s ease; }
+      .btn-glow:hover { box-shadow: 0 0 0 1px rgba(99,102,241,0.6), 0 8px 28px -6px rgba(99,102,241,0.55); transform: translateY(-2px); }
+      .grad-text { background: linear-gradient(90deg, #6366F1, #22D3EE); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      input { background: #0F1523; border: 1px solid rgba(148,163,184,0.16); color: #F8FAFC; }
+      input:focus { outline: none; border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
+      .hidden-login { display: none; }
+      .hidden-login.show { display: flex; }
+      .fade-out { animation: fadeOut 0.3s ease; }
+      @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    </style>
+</head>
+<body class="font-body text-txt antialiased">
+
+<!-- LOGIN SECTION -->
+<div id="loginContainer" class="hidden-login show w-full h-screen flex items-center justify-center px-4">
+  <div class="card rounded-2xl p-8 max-w-md w-full card-hover">
+    <h1 class="font-display font-bold text-3xl mb-2 grad-text">Dashboard Login</h1>
+    <p class="text-txt2 text-sm mb-8">Enter your credentials to access the CRUD dashboard</p>
+    
+    <form id="loginForm" class="space-y-5">
+      <div>
+        <label for="loginUsername" class="block text-xs font-medium text-txt2 mb-2">Username</label>
+        <input id="loginUsername" type="text" placeholder="username" class="w-full rounded-lg px-4 py-3 text-sm" />
+      </div>
+      <div>
+        <label for="loginPassword" class="block text-xs font-medium text-txt2 mb-2">Password</label>
+        <input id="loginPassword" type="password" placeholder="password" class="w-full rounded-lg px-4 py-3 text-sm" />
+      </div>
+      <p id="loginError" class="text-xs text-red-400"></p>
+      <button type="submit" class="btn-glow w-full bg-accent text-white font-semibold px-6 py-3 rounded-lg text-sm">
+        Login
+      </button>
+    </form>
+    
+    <p class="text-xs text-txt2 text-center mt-6">Demo credentials: <strong>pranesh</strong> / <strong>pranesh</strong></p>
+  </div>
+</div>
+
+<!-- DASHBOARD SECTION -->
+<div id="dashboardContainer" class="hidden-login w-full min-h-screen px-4 sm:px-8 py-8">
+  <!-- Header -->
+  <div class="max-w-7xl mx-auto mb-8 flex items-center justify-between">
+    <div>
+      <h1 class="font-display font-bold text-3xl grad-text">Dashboard</h1>
+      <p class="text-txt2 text-sm mt-1">Welcome back, <span id="userDisplay">Pranesh</span>!</p>
+    </div>
+    <button id="logoutBtn" class="btn-glow bg-accent text-white font-semibold px-6 py-2 rounded-lg text-sm">
+      Logout
+    </button>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+    <!-- Add New Item Section -->
+    <div class="card rounded-2xl p-6 mb-8 card-hover">
+      <h2 class="font-display font-semibold text-lg mb-5">Add New Item</h2>
+      <form id="addItemForm" class="grid md:grid-cols-4 gap-4 items-end">
+        <div>
+          <label for="itemTitle" class="block text-xs font-medium text-txt2 mb-2">Title</label>
+          <input id="itemTitle" type="text" placeholder="Item title" class="w-full rounded-lg px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="itemCategory" class="block text-xs font-medium text-txt2 mb-2">Category</label>
+          <input id="itemCategory" type="text" placeholder="Category" class="w-full rounded-lg px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="itemStatus" class="block text-xs font-medium text-txt2 mb-2">Status</label>
+          <select id="itemStatus" class="w-full rounded-lg px-3 py-2 text-sm bg-[#0F1523] border border-white/10 text-txt">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-glow bg-ok text-white font-semibold px-6 py-2 rounded-lg text-sm w-full md:w-auto">
+          Add Item
+        </button>
+      </form>
+    </div>
+
+    <!-- Items Table -->
+    <div class="card rounded-2xl overflow-hidden card-hover">
+      <div class="p-6 border-b border-white/5">
+        <h2 class="font-display font-semibold text-lg">Items List</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="border-b border-white/5 bg-bg/50">
+            <tr>
+              <th class="text-left px-6 py-3 font-semibold text-txt2">Title</th>
+              <th class="text-left px-6 py-3 font-semibold text-txt2">Category</th>
+              <th class="text-left px-6 py-3 font-semibold text-txt2">Status</th>
+              <th class="text-left px-6 py-3 font-semibold text-txt2">Date Added</th>
+              <th class="text-center px-6 py-3 font-semibold text-txt2">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="itemsTable" class="divide-y divide-white/5">
+            <!-- Items will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="p-12 text-center text-txt2">
+        <p class="text-sm">No items yet. Add one to get started!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+  <div class="card rounded-2xl p-6 max-w-md w-full card-hover">
+    <h2 class="font-display font-semibold text-lg mb-5">Edit Item</h2>
+    <form id="editForm" class="space-y-4">
+      <div>
+        <label for="editTitle" class="block text-xs font-medium text-txt2 mb-2">Title</label>
+        <input id="editTitle" type="text" class="w-full rounded-lg px-4 py-2 text-sm" />
+      </div>
+      <div>
+        <label for="editCategory" class="block text-xs font-medium text-txt2 mb-2">Category</label>
+        <input id="editCategory" type="text" class="w-full rounded-lg px-4 py-2 text-sm" />
+      </div>
+      <div>
+        <label for="editStatus" class="block text-xs font-medium text-txt2 mb-2">Status</label>
+        <select id="editStatus" class="w-full rounded-lg px-3 py-2 text-sm bg-[#0F1523] border border-white/10 text-txt">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
+      <div class="flex gap-3">
+        <button type="button" id="cancelEditBtn" class="flex-1 border border-white/15 text-txt font-semibold px-4 py-2 rounded-lg text-sm hover:border-accent2/60">
+          Cancel
+        </button>
+        <button type="submit" class="flex-1 btn-glow bg-accent text-white font-semibold px-4 py-2 rounded-lg text-sm">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ========== DATA & STATE ==========
+  let currentEditId = null;
+  const DEMO_USERNAME = 'pranesh';
+  const DEMO_PASSWORD = 'pranesh';
+
+  // Initialize items from localStorage
+  let items = JSON.parse(localStorage.getItem('dashboardItems')) || [];
+  let isLoggedIn = !!localStorage.getItem('isLoggedIn');
+
+  // ========== LOGIN LOGIC ==========
+  const loginForm = document.getElementById('loginForm');
+  const loginUsername = document.getElementById('loginUsername');
+  const loginPassword = document.getElementById('loginPassword');
+  const loginError = document.getElementById('loginError');
+  const loginContainer = document.getElementById('loginContainer');
+  const dashboardContainer = document.getElementById('dashboardContainer');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function updateUIState() {
+    if (isLoggedIn) {
+      loginContainer.classList.remove('show');
+      dashboardContainer.classList.add('show');
+      renderItems();
+    } else {
+      loginContainer.classList.add('show');
+      dashboardContainer.classList.remove('show');
+      loginUsername.value = '';
+      loginPassword.value = '';
+      loginError.textContent = '';
+    }
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value.trim();
+
+    if (username === DEMO_USERNAME && password === DEMO_PASSWORD) {
+      isLoggedIn = true;
+      localStorage.setItem('isLoggedIn', 'true');
+      document.getElementById('userDisplay').textContent = username;
+      updateUIState();
+    } else {
+      loginError.textContent = 'Invalid username or password. Try pranesh/pranesh';
+    }
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    isLoggedIn = false;
+    localStorage.removeItem('isLoggedIn');
+    updateUIState();
+  });
+
+  // ========== CRUD OPERATIONS ==========
+  const addItemForm = document.getElementById('addItemForm');
+  const itemTitle = document.getElementById('itemTitle');
+  const itemCategory = document.getElementById('itemCategory');
+  const itemStatus = document.getElementById('itemStatus');
+  const itemsTable = document.getElementById('itemsTable');
+  const emptyState = document.getElementById('emptyState');
+
+  // Create
+  addItemForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = itemTitle.value.trim();
+    const category = itemCategory.value.trim();
+    const status = itemStatus.value;
+
+    if (!title || !category) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    const newItem = {
+      id: Date.now(),
+      title,
+      category,
+      status,
+      dateAdded: new Date().toLocaleDateString()
+    };
+
+    items.push(newItem);
+    localStorage.setItem('dashboardItems', JSON.stringify(items));
+    renderItems();
+    addItemForm.reset();
+  });
+
+  // Read
+  function renderItems() {
+    itemsTable.innerHTML = '';
+    emptyState.style.display = items.length === 0 ? 'block' : 'none';
+
+    items.forEach(item => {
+      const row = document.createElement('tr');
+      const statusColor = item.status === 'Active' ? 'ok' : item.status === 'Pending' ? 'accent2' : 'txt2';
+      
+      row.innerHTML = `
+        <td class="px-6 py-4 text-txt">${item.title}</td>
+        <td class="px-6 py-4 text-txt2">${item.category}</td>
+        <td class="px-6 py-4">
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-${statusColor}/15 text-${statusColor}">${item.status}</span>
+        </td>
+        <td class="px-6 py-4 text-txt2 text-sm">${item.dateAdded}</td>
+        <td class="px-6 py-4 text-center">
+          <div class="flex gap-2 justify-center">
+            <button class="edit-btn text-accent2 hover:text-accent transition-colors text-sm font-medium" data-id="${item.id}">Edit</button>
+            <span class="text-white/10">|</span>
+            <button class="delete-btn text-red-400 hover:text-red-300 transition-colors text-sm font-medium" data-id="${item.id}">Delete</button>
+          </div>
+        </td>
+      `;
+      itemsTable.appendChild(row);
+    });
+
+    // Attach event listeners
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => openEditModal(parseInt(e.target.dataset.id)));
+    });
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => deleteItem(parseInt(e.target.dataset.id)));
+    });
+  }
+
+  // Update
+  const editModal = document.getElementById('editModal');
+  const editForm = document.getElementById('editForm');
+  const editTitle = document.getElementById('editTitle');
+  const editCategory = document.getElementById('editCategory');
+  const editStatus = document.getElementById('editStatus');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+  function openEditModal(id) {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+
+    currentEditId = id;
+    editTitle.value = item.title;
+    editCategory.value = item.category;
+    editStatus.value = item.status;
+    editModal.classList.remove('hidden');
+  }
+
+  editForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const item = items.find(i => i.id === currentEditId);
+    if (!item) return;
+
+    item.title = editTitle.value.trim();
+    item.category = editCategory.value.trim();
+    item.status = editStatus.value;
+
+    localStorage.setItem('dashboardItems', JSON.stringify(items));
+    renderItems();
+    editModal.classList.add('hidden');
+  });
+
+  cancelEditBtn.addEventListener('click', () => {
+    editModal.classList.add('hidden');
+  });
+
+  editModal.addEventListener('click', (e) => {
+    if (e.target === editModal) {
+      editModal.classList.add('hidden');
+    }
+  });
+
+  // Delete
+  function deleteItem(id) {
+    if (confirm('Are you sure you want to delete this item?')) {
+      items = items.filter(i => i.id !== id);
+      localStorage.setItem('dashboardItems', JSON.stringify(items));
+      renderItems();
+    }
+  }
+
+  // ========== INITIALIZE ==========
+  updateUIState();
+</script>
+</body>
+</html>
